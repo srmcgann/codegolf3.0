@@ -15,7 +15,7 @@ function mobileCheck() {
 function postComment(id,name){
   var comment=$("#commentInput"+id).val();
   if(comment.length>0){
-    $.post('/postComment.php',{ id: id, comment: comment }, function(data) {
+    $.post('/codegolf/postComment.php',{ id: id, comment: comment }, function(data) {
       if(data){
         alert("Oops. Comment could not be posted.");
       }else{
@@ -555,7 +555,7 @@ function toggleShareBox(id){
 
 function deleteApplet(id){
 	if(confirm("Are you sure?!\n\nThis action cannot be undone")){
-		$.post('/deleteApplet.php',{ id }, function(data) {
+		$.post('/codegolf/deleteApplet.php',{ id }, function(data) {
 			if(data){
 				alert("Oops. Applet could not be deleted.");
 			}else{
@@ -566,12 +566,12 @@ function deleteApplet(id){
 }
 
 function saveApplet(id,formerUserID,formerAppletID){
-	$.post('/saveApplet.php',{ code:eval("editor"+id).getValue(), formerUserID: formerUserID, formerAppletID:formerAppletID, webgl:$("#webglCheckbox"+id).is(':checked') },
+	$.post('/codegolf/saveApplet.php',{ code:eval("editor"+id).getValue(), formerUserID: formerUserID, formerAppletID:formerAppletID, webgl:$("#webglCheckbox"+id).is(':checked') },
 	function(data) {
 		if(data=="fail"){
 			alert("Applet could not be saved!\n\nEither it is too long, or you are not logged in...")
 		}else{
-			window.location="/"+data;
+			window.location="/codegolf/"+data;
 		}
 	});
 }

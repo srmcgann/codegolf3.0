@@ -113,12 +113,12 @@ for(i=0; i<sd; i++){
 		</div>
 		<script>
 			function saveApplet<?php echo $id?>(){
-				$.post('/saveApplet.php',{ code:$("#textArea<?php echo $id?>").val(), formerUserID: 0, formerAppletID:0 },
+				$.post('/codegolf/saveApplet.php',{ code:$("#textArea<?php echo $id?>").val(), formerUserID: 0, formerAppletID:0 },
 				function(data) {
 					if(data=="fail"){
 						alert("Applet could not be saved!\n\nEither it is too long, or you are not logged in...")
 					}else{
-						window.location="/";
+						window.location="/codegolf/";
 					}
 				});
 				

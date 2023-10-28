@@ -19,7 +19,7 @@
     $top = 0;
     foreach ($apps as $key => $val) {
         $top++;
-        if($top < 7) $ret .= "<tr><td style=\"border:1px solid #8888\"><a href=\"/a/$val[0]\">#$val[0]</a></td><td style=\"border:1px solid #8888\">$val[3]%</td><td style=\"border:1px solid #8888\">$val[4]</td></tr>";
+        if($top < 7) $ret .= "<tr><td style=\"border:1px solid #8888\"><a href=\"/codegolf/a/$val[0]\">#$val[0]</a></td><td style=\"border:1px solid #8888\">$val[3]%</td><td style=\"border:1px solid #8888\">$val[4]</td></tr>";
     }
     $ret .= "</table>";
   }
@@ -42,7 +42,7 @@
     $top = 0;
     foreach ($codegolfUsers as $key => $val) {
         $top++;
-        if($top < 7) $ret .= "&nbsp;&nbsp;$top) <a href=\"/$key\">$key</a><br>";
+        if($top < 7) $ret .= "&nbsp;&nbsp;$top) <a href=\"/codegolf/$key\">$key</a><br>";
     }
   }
   $ret .= "<br><br>";
@@ -67,7 +67,7 @@
         $res2 = mysqli_query($link, $sql);
         $row2 = mysqli_fetch_assoc($res2);
         $ret .= "
-          &nbsp;&nbsp;$val <a href=\"/$row2[name]\">$row2[name]</a><br>
+          &nbsp;&nbsp;$val <a href=\"/codegolf/$row2[name]\">$row2[name]</a><br>
         ";
       }
       $top++;

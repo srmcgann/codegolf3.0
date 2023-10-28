@@ -3,7 +3,7 @@
 
   function drawNewAppletButton(){
     ?>
-                <div id="landingDivContainer">
+      <div id="landingDivContainer">
             <div id="landingDiv">
                     <div class="newAppletButton" id="newAppletButton">
                       <img src="" class="NewAppletButtonGraphic">
@@ -18,7 +18,7 @@
   }
   
   function drawLoggedInMenu($name,$id,$email){
-    $avatar="/avatars/$id.jpg?".rand();
+    $avatar="avatars/$id.jpg?".rand();
     ?>
                 <div id="config-container">
                   <div id="preferencesScreen">
@@ -362,17 +362,17 @@
       if($user){
         ?>
         $(".navMenu").html("( <?php echo "$user"?> ) ");
-        $(".navMenu").append('<a href="/<?php echo $user?>" class="navMenuButton<?php echo ($filter=="all"?"Selected":"")?>">all</a>');
-        $(".navMenu").append('<a href="/<?php echo $user?>/140" class="navMenuButton<?php echo ($filter=="140"?"Selected":"")?>">140b</a>');
-        $(".navMenu").append('<a href="/<?php echo $user?>/512" class="navMenuButton<?php echo ($filter=="512"?"Selected":"")?>">512b</a>');
-        $(".navMenu").append('<a href="/<?php echo $user?>/1024" class="navMenuButton<?php echo ($filter=="1024"?"Selected":"")?>">1024b</a>');
+        $(".navMenu").append('<a href="/codegolf/<?php echo $user?>" class="navMenuButton<?php echo ($filter=="all"?"Selected":"")?>">all</a>');
+        $(".navMenu").append('<a href="/codegolf/<?php echo $user?>/140" class="navMenuButton<?php echo ($filter=="140"?"Selected":"")?>">140b</a>');
+        $(".navMenu").append('<a href="/codegolf/<?php echo $user?>/512" class="navMenuButton<?php echo ($filter=="512"?"Selected":"")?>">512b</a>');
+        $(".navMenu").append('<a href="/codegolf/<?php echo $user?>/1024" class="navMenuButton<?php echo ($filter=="1024"?"Selected":"")?>">1024b</a>');
         <?php
       }else{
         ?>
-        $(".navMenu").append('<a href="/" class="navMenuButton<?php echo ($filter=="all"?"Selected":"")?>">all</a>');
-        $(".navMenu").append('<a href="/140" class="navMenuButton<?php echo ($filter=="140"?"Selected":"")?>">140b</a>');
-        $(".navMenu").append('<a href="/512" class="navMenuButton<?php echo ($filter=="512"?"Selected":"")?>">512b</a>');
-        $(".navMenu").append('<a href="/1024" class="navMenuButton<?php echo ($filter=="1024"?"Selected":"")?>">1024b</a>');
+        $(".navMenu").append('<a href="/codegolf/" class="navMenuButton<?php echo ($filter=="all"?"Selected":"")?>">all</a>');
+        $(".navMenu").append('<a href="/codegolf/140" class="navMenuButton<?php echo ($filter=="140"?"Selected":"")?>">140b</a>');
+        $(".navMenu").append('<a href="/codegolf/512" class="navMenuButton<?php echo ($filter=="512"?"Selected":"")?>">512b</a>');
+        $(".navMenu").append('<a href="/codegolf/1024" class="navMenuButton<?php echo ($filter=="1024"?"Selected":"")?>">1024b</a>');
         <?php
       }
       ?>
@@ -632,7 +632,7 @@
           }
         });
       </script>
-      <div class="code-input"><div class="function-wrap" style="float:left;margin-bottom:5px;">function u(t){</div><input id="webglCheckbox<?php echo $id?>" <?if($webgl)echo "checked"?> style="margin-left:5%;float:left;" type="checkbox"></input><span style="float:left;margin-left:5px;font-size:.7em;" id="webglCheckboxLabel<?php echo $id?>">webgl</span>
+      <div class="code-input"><div class="function-wrap" style="float:left;margin-bottom:5px;">function u(t){</div><input id="webglCheckbox<?php echo $id?>" <?php if($webgl)echo "checked"?> style="margin-left:5%;float:left;" type="checkbox"></input><span style="float:left;margin-left:5px;font-size:.7em;" id="webglCheckboxLabel<?php echo $id?>">webgl</span>
         <a href="javascript:deleteApplet(<?php echo $id?>)" id="deleteButton<?php echo $id?>" class="deleteButton">Delete Applet</a>
         <textarea class="appletCode" id="textArea<?php echo $id?>" autocorrect="off" autocapitalize="off" spellcheck="false" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';"><?php echo $code?></textarea><div class="function-wrap" style="margin-top:5px;" id="count<?php echo $id?>"></div>
         <?php
@@ -678,7 +678,7 @@
         $byteDiff=$bytes-$row['bytes'];
         ?>
         <div class="creditDiv">
-          Remix of <a href="/a/<?php echo $formerAppletID?>">Applet #<?php echo $formerAppletID?></a> by <a href="/<?php echo $formerName?>"><?php echo $formerName?></a> (<?php echo ($byteDiff>=0?"+":"").$byteDiff?>b)
+          Remix of <a href="/codegolf/a/<?php echo $formerAppletID?>">Applet #<?php echo $formerAppletID?></a> by <a href="/codegolf/<?php echo $formerName?>"><?php echo $formerName?></a> (<?php echo ($byteDiff>=0?"+":"").$byteDiff?>b)
         </div>
         <?php
       }
@@ -689,13 +689,13 @@
           <span id="popCell<?php echo $id?>">Pop<?php echo $rating?>%</span>
           <span><a href="javascript:;" id="toggle_fullscreen<?php echo $id?>">Fullscreen</a></span>
           <!--<span><a href="javascript:toggleShareBox(<?php echo $id?>)">Share</a></span>-->
-          <span><a href="<?php echo $baseURL?>/a/<?php echo $id?>" target="_blank">Share</a></span>
+          <span><a href="<?php echo $baseURL?>/codegolf/a/<?php echo $id?>" target="_blank">Share</a></span>
           <br><input id="shareBox<?php echo $id?>" value="<?php echo $baseURL.'/a/'.$id?>" class="shareBox"></input>
         </div>
       </div>
       <table class="userInfoTable">
         <tr>
-          <td style="border:0; width: 275px"><a href="/<?php echo $name?>"><img src="<?php echo $avatar?>" class="appletAvatar" />
+          <td style="border:0; width: 275px"><a href="/codegolf/<?php echo $name?>"><img src="<?php echo $avatar?>" class="appletAvatar" />
           <br><span class="appletName"><?php echo $name?></span></a></td>
           <td><span class="userRating<?php echo $userID?>">User<br>Rating<br><?php echo $rating?>%</span></td>
           <td>Member Since<br><?php echo $dateCreated?></td>
