@@ -1,5 +1,6 @@
 <?php
-	require("db.php");
+  header('Content-Type: application/javascript');
+	require_once("db.php");
 ?>
 var oldParent;
 
@@ -413,18 +414,18 @@ function startStopApplets(){
 	$('.appletIframe').each(function(i, obj) {
 		if(isScrolledIntoView(obj)){
 			if(!iframeStates[i]) {
-                          setTimeout(function(){
-                            if(typeof obj.loaded != "undefined")obj.contentWindow.postMessage("start:", "<?php echo $appletURL?>");
-                            iframeStates[i]=1
-                          }, 0);
-                        }
+        setTimeout(function(){
+          if(typeof obj.loaded != "undefined")obj.contentWindow.postMessage("start:", "<?php echo $appletURL?>");
+          iframeStates[i]=1
+        }, 0);
+      }
 		}else{
 			if(iframeStates[i]) {
-                          if(typeof obj.loaded != "undefined") {
-                            obj.contentWindow.postMessage("stop:", "<?php echo $appletURL?>");
-                            iframeStates[i] = 0
-                          }
-                        }
+        if(typeof obj.loaded != "undefined") {
+          obj.contentWindow.postMessage("stop:", "<?php echo $appletURL?>");
+          iframeStates[i] = 0
+        }
+      }
 		}
 	});
 }
@@ -573,5 +574,4 @@ function saveApplet(id,formerUserID,formerAppletID){
 			window.location="/"+data;
 		}
 	});
-	
 }

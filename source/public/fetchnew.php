@@ -144,7 +144,7 @@ for(i=0; i<sd; i++){
 			if(len<141)var max=140;
 			$("#count<?php echo $id?>").html("}//<span style='color:"+(len>512?"red":"#888")+"'>"+len+"</span>/"+max);
 		</script>
-		<?		
+		<?php	
 	}
 
 	drawNewApplet();
