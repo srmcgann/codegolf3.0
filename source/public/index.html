@@ -19,7 +19,10 @@
       mobile=$(window).width()<$(window).height()
     </script>
       <?
-        $params = explode('/',  $_GET['params']);
+        $params = explode('/',  $_SERVER['REQUEST_URI']);
+        if(sizeof($params)>0){
+          array_shift($params);
+        }
         if ($params[1] === 'a') {
           ?>
           <meta property="og:image" content="https://<?=$baseDomain?>/thumbs/<?=$params[2]?>.png" />
