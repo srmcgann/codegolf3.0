@@ -24,13 +24,13 @@
 
 	require("db.php");
 	$sql="SELECT code,id FROM applets";
-	$res=$link->query($sql);
+	$res=mysqli_query($link, $sql);
 	for($i=0;$i<mysqli_num_rows($res);++$i){
 		$row=mysqli_fetch_assoc($res);
 		$id=$row['id'];
 		$bytes=strlen(str_replace("\r\n","\n",$row['code']));
 		$sql="UPDATE applets SET bytes=$bytes WHERE id=$id";
-		$link->query($sql);
+		mysqli_query($link, $sql);
 	}
 	echo "done.";
 	*/

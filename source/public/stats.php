@@ -4,13 +4,13 @@
   $ret = '<div style="width: calc(100% - 15px); text-align: left; margin-left: 15px;">';
 
   $sql="SELECT id, userID, rating, votes, bytes FROM applets ORDER BY rating * votes DESC";
-  $res=$link->query($sql);
+  $res=mysqli_query($link, $sql);
   $apps = [];
   if(mysqli_num_rows($res)){
     for($i = 0; $i < mysqli_num_rows($res); ++$i) {
       $row = mysqli_fetch_assoc($res);
-      $sql = "SELECT name FROM users WHERE id = $row[userID]";
-      $res2 = $link->query($sql);
+      $sql = "SELECT name FROM codegolfUsers WHERE id = $row[userID]";
+      $res2 = mysqli_query($link, $sql);
       $row2 = mysqli_fetch_assoc($res2);
       array_push($apps, [$row['id'], $row['bytes'], $row2['name'], round($row['rating']), $row['votes']]);
     }
@@ -25,22 +25,22 @@
   }
   $ret .= "<br><br>";
 
-  $sql="SELECT id, name, rating FROM users ORDER BY rating DESC";
-  $res=$link->query($sql);
-  $users = [];
+  $sql="SELECT id, name, rating FROM codegolfUsers ORDER BY rating DESC";
+  $res=mysqli_query($link, $sql);
+  $codegolfUsers = [];
   if(mysqli_num_rows($res)){
     for($i = 0; $i < mysqli_num_rows($res); ++$i) {
       $row = mysqli_fetch_assoc($res);
       $sql = "SELECT COUNT(id) FROM votes WHERE userID = $row[id]";
-      $res2 = $link->query($sql);
+      $res2 = mysqli_query($link, $sql);
       $row2 = mysqli_fetch_assoc($res2);
       $count = $row2['COUNT(id)'];
-      $users[$row['name']] = (1 + $count / 8000)  * $row['rating'];
+      $codegolfUsers[$row['name']] = (1 + $count / 8000)  * $row['rating'];
     }
-    $ret .= "<span style=\"font-size:24px;\">Most Popular Users</span><br>";
-    arsort($users);
+    $ret .= "<span style=\"font-size:24px;\">Most Popular users</span><br>";
+    arsort($codegolfUsers);
     $top = 0;
-    foreach ($users as $key => $val) {
+    foreach ($codegolfUsers as $key => $val) {
         $top++;
         if($top < 7) $ret .= "&nbsp;&nbsp;$top) <a href=\"/$key\">$key</a><br>";
     }
@@ -48,22 +48,23 @@
   $ret .= "<br><br>";
 
   $sql="SELECT userID FROM applets";
-  $res=$link->query($sql);
+  $res=mysqli_query($link, $sql);
   if(mysqli_num_rows($res)){
-    $users = [];
+    $codegolfUsers = [];
     for($i = 0; $i < mysqli_num_rows($res); ++$i) {
       $row = mysqli_fetch_assoc($res);
-      $users["USER" . $row['userID']]++;
+      if(isset($codegolfUsers['USER'.$row['userID']]) === false) $codegolfUsers['USER'.$row['userID']] = 0;
+      $codegolfUsers['USER'.$row['userID']]++;
     }
-    arsort($users);
+    arsort($codegolfUsers);
     $top = 0;
     $ret .= "<span style=\"font-size:24px\">Most demos</span><br>";
 
-    foreach($users as $key => $val) {
+    foreach($codegolfUsers as $key => $val) {
       if($top < 6) {
         $uid = substr($key, 4);
-        $sql = "SELECT name FROM users WHERE id = $uid";
-        $res2 = $link->query($sql);
+        $sql = "SELECT name FROM codegolfUsers WHERE id = $uid";
+        $res2 = mysqli_query($link, $sql);
         $row2 = mysqli_fetch_assoc($res2);
         $ret .= "
           &nbsp;&nbsp;$val <a href=\"/$row2[name]\">$row2[name]</a><br>

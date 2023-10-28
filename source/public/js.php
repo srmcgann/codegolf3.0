@@ -21,10 +21,10 @@ function postComment(id,name){
       }else{
         comment=comment.replace(":)","ðŸ▒~V~R~V~R~\▒~V~R~V~R| ");
         comment=comment.replace(":D","ðŸ▒~V~R~V~R~\▒~V~R~V~R~R");
-        $("#commentsDivInner"+id).show();
-        $("#commentsDivInner"+id).append('<a class="commentUserName" href="/'+name+'">'+name+'</a>:<span> '+comment.replace("<","&lt;")+'</span><br>');
+        $("#codegolfCommentsDivInner"+id).show();
+        $("#codegolfCommentsDivInner"+id).append('<a class="commentUserName" href="/'+name+'">'+name+'</a>:<span> '+comment.replace("<","&lt;")+'</span><br>');
         $("#commentInput"+id).val("");
-        $("#commentsDivInner"+id).linkify();
+        $("#codegolfCommentsDivInner"+id).linkify();
       }
     });
   }
