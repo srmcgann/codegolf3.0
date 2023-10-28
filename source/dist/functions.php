@@ -79,7 +79,7 @@
                 <div id="loggedInRightMenu">
                   <div class="dropdown">
                     <img src='<?php echo $avatar?>' class="menuAvatar"><br>
-                    <span onclick="location.href='<?php echo $name?>'" class="userMenu"><?php echo $name?></span>
+                    <span onclick="location.href='<?php echo $baseURL.'/'.$name?>'" class="userMenu"><?php echo $name?></span>
                     <div class="dropdown-content">
                       <p onclick="Preferences()" class="dropdownItem">Preferences</p>
                       <p onclick="ChangePassword()" class="dropdownItem">Change Password</p>
@@ -292,8 +292,8 @@
       if(isset($_COOKIE['id']) && $_COOKIE['id']){
         $id=$_COOKIE['id'];
         $pass=$_COOKIE['session'];
-        $sql="SELECT * FROM users WHERE id=$id AND pass = \"$pass\"";
-        $res=$link->query($sql);
+        $sql="SELECT * FROM codegolfUsers WHERE id=$id AND pass = \"$pass\"";
+        $res=mysqli_query($link, $sql);
         if(mysqli_num_rows($res)){
           $row=mysqli_fetch_assoc($res);
           $email=$row['email'];
@@ -302,8 +302,8 @@
             drawLoggedInMenu($name,$id,$email);
             $date=date("Y-m-d H:i:s",strtotime("now"));
             $IP=$_SERVER['REMOTE_ADDR'];
-            $sql="UPDATE users SET lastseen = \"$date\", IP=\"$IP\" WHERE id=$id";
-            $link->query($sql);
+            $sql="UPDATE codegolfUsers SET lastseen = \"$date\", IP=\"$IP\" WHERE id=$id";
+            mysqli_query($link, $sql);
             //for new hashing transition
             $newHash=$row['newHash'];
             if($newHash=="") drawNewPasswordRequiredScreen();
@@ -324,7 +324,10 @@
   }
   
   function drawNavMenu(){
-    $params=explode("/",$_GET['params']);
+    $params = explode('/',  $_SERVER['REQUEST_URI']);
+    if(sizeof($params)>0){
+      array_shift($params);
+    }
     $user=$params[0];
     $filter=$params[1]?$params[1]:"all";
     $valid=0;
@@ -336,11 +339,11 @@
       require("db.php");
       $id=mysqli_real_escape_string($link,$filter);
       $sql="SELECT userID FROM applets WHERE id=$id";
-      $res=$link->query($sql);
+      $res=mysqli_query($link, $sql);
       $row=mysqli_fetch_assoc($res);
       $userID=$row['userID'];
-      $sql="SELECT name FROM users WHERE id=$userID";
-      $res=$link->query($sql);
+      $sql="SELECT name FROM codegolfUsers WHERE id=$userID";
+      $res=mysqli_query($link, $sql);
       $row=mysqli_fetch_assoc($res);
       $user=$row['name'];
       $filter="";
@@ -400,7 +403,7 @@
   
   function syncUserRating($userID){
     $sql="SELECT * FROM votes where userID=$userID";
-    $res=$link->query($sql);
+    $res=mysqli_query($link, $sql);
     $rating=0;
     for($i=0;$i<mysqli_num_rows($res);++$i){
       $row=mysqli_fetch_assoc($res);
@@ -408,25 +411,25 @@
     }
     $rating/=mysqli_num_rows($res);
     $rating*=20;
-    $sql="UPDATE users SET rating = \"$rating\" WHERE id=$userID";
-    $res=$link->query($sql);
+    $sql="UPDATE codegolfUsers SET rating = \"$rating\" WHERE id=$userID";
+    $res=mysqli_query($link, $sql);
   }
 
-  function drawComments($id){
+  function drawcodegolfComments($id){
     global $link;
-    $sql="SELECT * FROM comments WHERE appletID=$id ORDER BY date ASC";
-    $res=$link->query($sql);
+    $sql="SELECT * FROM codegolfComments WHERE appletID=$id ORDER BY date ASC";
+    $res=mysqli_query($link, $sql);
     ?>
-    <div class="commentsDiv">
-      <div id="commentsDivInner<?php echo $id?>" class="commentsDivInner">
+    <div class="codegolfCommentsDiv">
+      <div id="codegolfCommentsDivInner<?php echo $id?>" class="codegolfCommentsDivInner">
       <?php
       if(mysqli_num_rows($res)){
         for($i=0;$i<mysqli_num_rows($res);++$i){
           $row=mysqli_fetch_assoc($res);
           $userID=$row['userID'];
           $comment=$row['comment'];
-          $sql="SELECT name FROM users WHERE id=$userID";
-          $res2=$link->query($sql);
+          $sql="SELECT name FROM codegolfUsers WHERE id=$userID";
+          $res2=mysqli_query($link, $sql);
           $row=mysqli_fetch_assoc($res2);
           $name=$row["name"];
           ?>
@@ -435,18 +438,18 @@
         }
       }else{
         ?>
-        <span>No Comments...</span><br>
+        <span>No codegolfComments...</span><br>
         <?php
       }
       ?>
       </div>
       <script>
-        $("#commentsDivInner<?php echo $id?>").linkify();
+        $("#codegolfCommentsDivInner<?php echo $id?>").linkify();
       </script>
       <?php
       $userID=$_COOKIE['id'];
-      $sql="SELECT * FROM users WHERE id=$userID";
-      $res=$link->query($sql);
+      $sql="SELECT * FROM codegolfUsers WHERE id=$userID";
+      $res=mysqli_query($link, $sql);
       $row=mysqli_fetch_assoc($res);
       $userName=$row['name'];
       if(isset($_COOKIE['id'])){
@@ -559,16 +562,16 @@
     $bytes=$row['bytes'];
     $formerUserID=$row['formerUserID'];
     $formerAppletID=$row['formerAppletID'];
-    $sql="SELECT * FROM users WHERE id=$userID";
-    $res=$link->query($sql);
+    $sql="SELECT * FROM codegolfUsers WHERE id=$userID";
+    $res=mysqli_query($link, $sql);
     $row=mysqli_fetch_assoc($res);
     $name=$row['name'];
     $dateCreated=date('m / d / Y',strtotime($row['dateCreated']));
     $lastSeen=date('m / d / Y',strtotime($row['lastSeen']));
     $rating=$row['rating'];
     if(isset($_COOKIE['id'])){
-      $sql="SELECT * FROM users WHERE id=".$_COOKIE['id'];
-      $res=$link->query($sql);
+      $sql="SELECT * FROM codegolfUsers WHERE id=".$_COOKIE['id'];
+      $res=mysqli_query($link, $sql);
       $row=mysqli_fetch_assoc($res);
       $admin=$row['admin'];
     }else{
@@ -576,7 +579,7 @@
     }
     ?>
     <div class="appletDiv" id="appletDiv<?php echo $id?>">
-      <iframe src="<?php echo $appletURL?>/<?php echo $id?>" sandbox="allow-same-origin allow-scripts" class="appletIframe" id="iframe<?php echo $id?>"></iframe>
+      <iframe src="<?php echo $appletURL?>/?applet=<?php echo $id?>" sandbox="allow-same-origin allow-scripts" class="appletIframe" id="iframe<?php echo $id?>"></iframe>
       <script>
         var h=$(".appletIframe").width()/1.8;
         $(".appletIframe").css("height",h+"px");
@@ -665,12 +668,12 @@
       <div class="clear"></div>
       <?php
       if($formerUserID){
-        $sql="SELECT * FROM users WHERE id=$formerUserID";
-        $res=$link->query($sql);
+        $sql="SELECT * FROM codegolfUsers WHERE id=$formerUserID";
+        $res=mysqli_query($link, $sql);
         $row=mysqli_fetch_assoc($res);
         $formerName=$row['name'];
         $sql="SELECT bytes FROM applets WHERE id=$formerAppletID";
-        $res=$link->query($sql);
+        $res=mysqli_query($link, $sql);
         $row=mysqli_fetch_assoc($res);
         $byteDiff=$bytes-$row['bytes'];
         ?>
@@ -699,7 +702,7 @@
           <td style="border-right:0;">Last Seen<br><?php echo $lastSeen?></td>
         </tr>
       </table>
-      <?drawComments($id)?>
+      <?drawcodegolfComments($id)?>
     </div>
     <?php
     if($drawLegend){
@@ -720,7 +723,7 @@
     ?>      
     <script>
       <?php
-      if($_COOKIE['id']==$userID || $admin){
+      if(isset($_COOKIE['id']) && $_COOKIE['id']==$userID || $admin){
         ?>
         $("#deleteButton<?php echo $id?>").show();
         <?php

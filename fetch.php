@@ -5,8 +5,8 @@
 		$postsPerScroll=6;
 		if(isset($_POST['u']) && $_POST['u']){
 			$user=mysqli_real_escape_string($link,$_POST['u']);
-			$sql="SELECT * FROM users WHERE name LIKE \"$user\"";
-			$res=$link->query($sql);
+			$sql="SELECT * FROM codegolfUsers WHERE name LIKE \"$user\"";
+			$res=mysqli_query($link, $sql);
 			if(mysqli_num_rows($res)){
 				$row=mysqli_fetch_assoc($res);
 				$id=$row['id'];
@@ -20,7 +20,7 @@
 					$sql.=" AND bytes > 512";
 				}
 				$sql.=" ORDER BY date DESC";
-				$res=$link->query($sql);
+				$res=mysqli_query($link, $sql);
 				if(mysqli_num_rows($res)){
 					$count=0;
 					for($i=0;$i<mysqli_num_rows($res);++$i){
@@ -47,7 +47,7 @@
 				$sql.=" AND bytes > 512";
 			}
 			$sql.=" ORDER BY (1/(UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(date))*(1+rating*votes)) DESC";
-			$res=$link->query($sql);
+			$res=mysqli_query($link, $sql);
 			if(mysqli_num_rows($res)){
 				$count=0;
 				for($i=0;$i<mysqli_num_rows($res);++$i){

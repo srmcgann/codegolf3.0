@@ -579,7 +579,7 @@
     }
     ?>
     <div class="appletDiv" id="appletDiv<?php echo $id?>">
-      <iframe src="<?php echo $appletURL?>/<?php echo $id?>" sandbox="allow-same-origin allow-scripts" class="appletIframe" id="iframe<?php echo $id?>"></iframe>
+      <iframe src="<?php echo $appletURL?>/?applet=<?php echo $id?>" sandbox="allow-same-origin allow-scripts" class="appletIframe" id="iframe<?php echo $id?>"></iframe>
       <script>
         var h=$(".appletIframe").width()/1.8;
         $(".appletIframe").css("height",h+"px");

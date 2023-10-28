@@ -9,8 +9,8 @@
 		$imgData = str_replace(' ','+',$avatar);
 		$imgData =  substr($imgData,strpos($imgData,",")+1);
 		$imgData = base64_decode($imgData);
-		$sql="SELECT id FROM users WHERE id = $id AND pass = \"$pass\"";
-		$res=$link->query($sql);
+		$sql="SELECT id FROM codegolfUsers WHERE id = $id AND pass = \"$pass\"";
+		$res=mysqli_query($link, $sql);
 		if(mysqli_num_rows($res)){
 			$h=fopen("avatars/$id.jpg","w");
 			fwrite($h,$imgData);
@@ -19,10 +19,10 @@
                         fwrite($h,$imgData);
                         fclose($h);
 			if($email){
-				$sql="UPDATE users SET email=\"$email\" WHERE id=$id";
-				$link->query($sql);
+				$sql="UPDATE codegolfUsers SET email=\"$email\" WHERE id=$id";
+				mysqli_query($link, $sql);
 			}
-			$link->query($sql);
+			mysqli_query($link, $sql);
 			echo 1;
 		}
 	}
