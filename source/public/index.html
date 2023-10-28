@@ -20,10 +20,10 @@
     </script>
       <?
         $params = explode('/',  $_GET['params']);
-        if ($params[0] === 'a') {
+        if ($params[1] === 'a') {
           ?>
-          <meta property="og:image" content="https://<?=$baseDomain?>/thumbs/<?=$params[1]?>.png" />
-          <meta property="og:title" content="demo #<?=$params[1]?>" />
+          <meta property="og:image" content="https://<?=$baseDomain?>/thumbs/<?=$params[2]?>.png" />
+          <meta property="og:title" content="demo #<?=$params[2]?>" />
           <?
         } else {
           ?>

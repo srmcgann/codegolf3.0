@@ -12,7 +12,7 @@
                   </div>
 		</div>
                 <script>
-                  document.getElementsByClassName('NewAppletButtonGraphic')[0].src = '/plus.png'
+                  document.getElementsByClassName('NewAppletButtonGraphic')[0].src = 'plus.png'
                 </script>
 		<?php
 	}
@@ -747,6 +747,6 @@
 			if(len<141)var max=140;
 			$("#count<?php echo $id?>").html("}//<span style='color:"+(len>1024?"red":"#888")+"'>"+len+"</span>/"+max);
 		</script>
-		<?		
+		<?php	
 	}
 ?>
