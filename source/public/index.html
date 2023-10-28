@@ -1,4 +1,4 @@
-<? require('db.php'); ?>
+<?php require('db.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,14 +25,14 @@
         }
         if ($params[0] === 'a') {
           ?>
-          <meta property="og:image" content="http://<?=$baseDomain?>/thumbs/<?=$params[1]?>.png" />
-          <meta property="og:title" content="demo #<?=$params[1]?>" />
-          <?
+          <meta property="og:image" content="http://<?php echo $baseDomain?>/thumbs/<?php echo $params[1]?>.png" />
+          <meta property="og:title" content="demo #<?php echo $params[1]?>" />
+          <?php
         } else {
           ?>
-          <meta property="og:image" content="http://<?=$baseDomain?>/codegolf_logo.png" />
+          <meta property="og:image" content="http://<?php echo $baseDomain?>/codegolf_logo.png" />
           <meta property="og:title" content="CODEGOLF.TK, where the demoscene lives on!" />
-          <?
+          <?php
         }
       ?>
   </head>
