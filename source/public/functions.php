@@ -325,8 +325,8 @@
   
   function drawNavMenu(){
     $params = explode('/',  $_SERVER['REQUEST_URI']);
-    if(sizeof($params)>0){
-      array_shift($params);
+    if(sizeof($params)>3){
+      for($i=3;$i--;)array_shift($params);
     }
     $user=$params[0];
     $filter=$params[1]?$params[1]:"all";
