@@ -79,7 +79,7 @@
                 <div id="loggedInRightMenu">
                   <div class="dropdown">
                     <img src='<?php echo $avatar?>' class="menuAvatar"><br>
-                    <span onclick="location.href='<?php echo $baseURL.'/'.$name?>'" class="userMenu"><?php echo $name?></span>
+                    <span onclick="location.href='<?php echo $baseURL.'/?params=/'.$name?>'" class="userMenu"><?php echo $name?></span>
                     <div class="dropdown-content">
                       <p onclick="Preferences()" class="dropdownItem">Preferences</p>
                       <p onclick="ChangePassword()" class="dropdownItem">Change Password</p>
@@ -362,10 +362,10 @@
       if($user){
         ?>
         $(".navMenu").html("( <?php echo "$user"?> ) ");
-        $(".navMenu").append('<a href="/codegolf/<?php echo $user?>" class="navMenuButton<?php echo ($filter=="all"?"Selected":"")?>">all</a>');
-        $(".navMenu").append('<a href="/codegolf/<?php echo $user?>/140" class="navMenuButton<?php echo ($filter=="140"?"Selected":"")?>">140b</a>');
-        $(".navMenu").append('<a href="/codegolf/<?php echo $user?>/512" class="navMenuButton<?php echo ($filter=="512"?"Selected":"")?>">512b</a>');
-        $(".navMenu").append('<a href="/codegolf/<?php echo $user?>/1024" class="navMenuButton<?php echo ($filter=="1024"?"Selected":"")?>">1024b</a>');
+        $(".navMenu").append('<a href="/codegolf/?params=/<?php echo $user?>" class="navMenuButton<?php echo ($filter=="all"?"Selected":"")?>">all</a>');
+        $(".navMenu").append('<a href="/codegolf/?params=/<?php echo $user?>/140" class="navMenuButton<?php echo ($filter=="140"?"Selected":"")?>">140b</a>');
+        $(".navMenu").append('<a href="/codegolf/?params=/<?php echo $user?>/512" class="navMenuButton<?php echo ($filter=="512"?"Selected":"")?>">512b</a>');
+        $(".navMenu").append('<a href="/codegolf/?params=/<?php echo $user?>/1024" class="navMenuButton<?php echo ($filter=="1024"?"Selected":"")?>">1024b</a>');
         <?php
       }else{
         ?>
@@ -383,7 +383,7 @@
   function sendVerificationEmail($name,$email,$key){
     global $baseURL, $baseDomain;
     $to = '"'.$name.'" <'.$email.'>';
-    $subject = "Welcome to efx.cantelope.org!";
+    $subject = "Welcome to test.cantelope.org!";
     $txt = "
     Thank you for signing up on $baseDomain!\r\n
     Click the link below to confirm your email address.\r\n\r\n
@@ -420,8 +420,8 @@
     $sql="SELECT * FROM codegolfComments WHERE appletID=$id ORDER BY date ASC";
     $res=mysqli_query($link, $sql);
     ?>
-    <div class="codegolfCommentsDiv">
-      <div id="codegolfCommentsDivInner<?php echo $id?>" class="codegolfCommentsDivInner">
+    <div class="commentsDiv">
+      <div id="commentsDivInner<?php echo $id?>" class="commentsDivInner">
       <?php
       if(mysqli_num_rows($res)){
         for($i=0;$i<mysqli_num_rows($res);++$i){
@@ -433,26 +433,26 @@
           $row=mysqli_fetch_assoc($res2);
           $name=$row["name"];
           ?>
-          <a class="commentUserName" href="/<?php echo $name?>"><?php echo $name?></a>:<span> <?php echo htmlspecialchars($comment, ENT_QUOTES, 'utf8')?></span><br>
+          <a class="commentUserName" href="/codegolf/?params=/<?php echo $name?>"><?php echo $name?></a>:<span> <?php echo htmlspecialchars($comment, ENT_QUOTES, 'UTF-8')?></span><br>
           <?php
         }
       }else{
         ?>
-        <span>No codegolfComments...</span><br>
+        <span>No comments...</span><br>
         <?php
       }
       ?>
       </div>
       <script>
-        $("#codegolfCommentsDivInner<?php echo $id?>").linkify();
+        $("#commentsDivInner<?php echo $id?>").linkify();
       </script>
       <?php
-      $userID=$_COOKIE['id'];
-      $sql="SELECT * FROM codegolfUsers WHERE id=$userID";
-      $res=mysqli_query($link, $sql);
-      $row=mysqli_fetch_assoc($res);
-      $userName=$row['name'];
       if(isset($_COOKIE['id'])){
+        $userID=$_COOKIE['id'];
+        $sql="SELECT * FROM codegolfUsers WHERE id=$userID";
+        $res=mysqli_query($link, $sql);
+        $row=mysqli_fetch_assoc($res);
+        $userName=$row['name'];
         ?>
         <div style="display:flex">
           <input type="text" id="commentInput<?php echo $id?>" style="flex-grow:100;margin:10px;text-align:left;padding-left:5px;" />
@@ -610,7 +610,7 @@
         });
         
         $('#toggle_fullscreen<?php echo $id?>').on('click', function(){
-          i=$("#appletDiv<?php echo $id?>")[0];
+          i=$("#iframe<?php echo $id?>")[0];
           if (i.requestFullscreen) {
             i.requestFullscreen();
           } else if (i.webkitRequestFullscreen) {
@@ -678,31 +678,31 @@
         $byteDiff=$bytes-$row['bytes'];
         ?>
         <div class="creditDiv">
-          Remix of <a href="/codegolf/a/<?php echo $formerAppletID?>">Applet #<?php echo $formerAppletID?></a> by <a href="/codegolf/<?php echo $formerName?>"><?php echo $formerName?></a> (<?php echo ($byteDiff>=0?"+":"").$byteDiff?>b)
+          Remix of <a href="/codegolf/?params=/a/<?php echo $formerAppletID?>">Applet #<?php echo $formerAppletID?></a> by <a href="/codegolf/?params=/<?php echo $formerName?>"><?php echo $formerName?></a> (<?php echo ($byteDiff>=0?"+":"").$byteDiff?>b)
         </div>
         <?php
       }
       ?>
       <div class="toolbar">
-        <?drawRateWidget($id,$userID)?>
+        <?php drawRateWidget($id,$userID)?>
         <div class="toolbarText">
           <span id="popCell<?php echo $id?>">Pop<?php echo $rating?>%</span>
           <span><a href="javascript:;" id="toggle_fullscreen<?php echo $id?>">Fullscreen</a></span>
           <!--<span><a href="javascript:toggleShareBox(<?php echo $id?>)">Share</a></span>-->
-          <span><a href="<?php echo $baseURL?>/codegolf/a/<?php echo $id?>" target="_blank">Share</a></span>
-          <br><input id="shareBox<?php echo $id?>" value="<?php echo $baseURL.'/a/'.$id?>" class="shareBox"></input>
+          <span><a href="<?php echo $baseURL?>/?params=/a/<?php echo $id?>" target="_blank">Share</a></span>
+          <br><input id="shareBox<?php echo $id?>" value="<?php echo $baseURL.'/?params=/a/'.$id?>" class="shareBox"></input>
         </div>
       </div>
       <table class="userInfoTable">
         <tr>
-          <td style="border:0; width: 275px"><a href="/codegolf/<?php echo $name?>"><img src="<?php echo $avatar?>" class="appletAvatar" />
+          <td style="border:0; width: 275px"><a href="/codegolf/?params=/<?php echo $name?>"><img src="<?php echo $avatar?>" class="appletAvatar" />
           <br><span class="appletName"><?php echo $name?></span></a></td>
           <td><span class="userRating<?php echo $userID?>">User<br>Rating<br><?php echo $rating?>%</span></td>
           <td>Member Since<br><?php echo $dateCreated?></td>
           <td style="border-right:0;">Last Seen<br><?php echo $lastSeen?></td>
         </tr>
       </table>
-      <?drawcodegolfComments($id)?>
+      <?php drawcodegolfComments($id)?>
     </div>
     <?php
     if($drawLegend){
@@ -729,6 +729,7 @@
         <?php
       }
       ?>
+
       var oldcode=editor<?php echo $id?>.getValue();
       editor<?php echo $id?>.on("keyup",function(){
         if(editor<?php echo $id?>.getValue()!=oldcode){

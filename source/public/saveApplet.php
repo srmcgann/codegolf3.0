@@ -67,7 +67,7 @@
 			echo $name;
 
                         // generate thumbnail for social media
-                        shell_exec('node thumb.js ' . $id);
+                        //shell_exec('node thumb.js ' . $id);
 		}
 
 	}else{

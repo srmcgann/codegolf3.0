@@ -21,10 +21,10 @@ function postComment(id,name){
       }else{
         comment=comment.replace(":)","ðŸ▒~V~R~V~R~\▒~V~R~V~R| ");
         comment=comment.replace(":D","ðŸ▒~V~R~V~R~\▒~V~R~V~R~R");
-        $("#codegolfCommentsDivInner"+id).show();
-        $("#codegolfCommentsDivInner"+id).append('<a class="commentUserName" href="/'+name+'">'+name+'</a>:<span> '+comment.replace("<","&lt;")+'</span><br>');
+        $("#commentsDivInner"+id).show();
+        $("#commentsDivInner"+id).append('<a class="commentUserName" href="/?params='+name+'">'+name+'</a>:<span> '+comment.replace("<","&lt;")+'</span><br>');
         $("#commentInput"+id).val("");
-        $("#codegolfCommentsDivInner"+id).linkify();
+        $("#commentsDivInner"+id).linkify();
       }
     });
   }
@@ -150,7 +150,7 @@ function SubmitLogin(){
 	var isEmail=isEmailAddress(user);
 	$.post( "login.php", { user: user, pass: pass, isEmail: isEmail }, function( data ) {
 		if(data){
-			location.href="/";
+			location.href="<?php echo $baseURL; ?>";
 		}else{
 			$("#loginResult").show();
 		}
@@ -179,7 +179,7 @@ function SavePreferences(){
 	
 	var img = $('#image-cropper').cropit('export', {type: 'image/jpeg', quality: .9, originalSize: false});
 	var email=$("#email").val();
-	$.post( "/savePrefs.php", { avatar: img, email: email}, function( data ) {
+	$.post( "savePrefs.php", { avatar: img, email: email}, function( data ) {
 		if(data){
 			location.reload();
 		}
@@ -410,7 +410,7 @@ function isScrolledIntoView(elem){
 var iframeStates = Array(9e3).fill(1)
 
 function startStopApplets(){
-	
+	console.log("start: <?php echo $appletURL?>")
 	$('.appletIframe').each(function(i, obj) {
 		if(isScrolledIntoView(obj)){
 			if(!iframeStates[i]) {
@@ -438,12 +438,12 @@ function fetchMore(){
 		$(window).unbind('scroll',fetchMore);
 		$(window).bind('scroll',startStopApplets);
 		fetchComplete=false;
-		var user=window.location.pathname.split('/')[1];
+		var user=window.location.href.split('/')[5];
 		if(user=="140" || user=="512" || user=="1024"){
 			var filter=user;
 			user="";
 		}else{
-			var filter=window.location.pathname.split('/')[2];
+			var filter=window.location.href.split('/')[6];
 		}
                 var IDs = [];
                 $("#main").find("iframe").each(function(){ IDs.push(this.id.substring(6)); });
@@ -493,8 +493,8 @@ function hookNewAppletButton(){
 }
 
 $(document).ready(function(){
-	if(window.location.pathname.split('/')[1]=='a'){
-		$.post('fetchSingle.php',{ id:window.location.pathname.split('/')[2] },
+	if(window.location.href.split('/')[5]=='a'){
+		$.post('fetchSingle.php',{ id:window.location.href.split('/')[6] },
 		function(data) {
 			if(data.length>10){
 				$("#main").append(data);
@@ -571,7 +571,7 @@ function saveApplet(id,formerUserID,formerAppletID){
 		if(data=="fail"){
 			alert("Applet could not be saved!\n\nEither it is too long, or you are not logged in...")
 		}else{
-			window.location="/codegolf/"+data;
+			location.href = "/codegolf/?params=/"+data;
 		}
 	});
 }

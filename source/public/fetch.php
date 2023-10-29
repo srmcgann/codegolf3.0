@@ -11,7 +11,7 @@
 				$row=mysqli_fetch_assoc($res);
 				$id=$row['id'];
 				$sql="SELECT * FROM applets WHERE userID=$id";
-				$filter=$_POST['filter'];
+				$filter=isset($_POST['filter']) ? $_POST['filter'] : "";
 				if($filter=="140"){
 					$sql.=" AND bytes <= 140";
 				}elseif($filter=="512"){
@@ -38,7 +38,7 @@
 			}
 		}else{
 			$sql="SELECT * FROM applets WHERE votes = 0 OR rating > 50";
-			$filter=$_POST['filter'];
+			$filter=isset($_POST['filter']) ? $_POST['filter'] : '';
 			if($filter=="140"){
 				$sql.=" AND bytes <= 140";
 			}elseif($filter=="512"){

@@ -36,7 +36,7 @@ for(i=0; i<sd; i++){
 				});
 				
 				$('#toggle_fullscreen<?php echo $id?>').on('click', function(){
-					i=$("#appletDiv<?php echo $id?>")[0];
+					i=$("#iframe<?php echo $id?>")[0];
 					if (i.requestFullscreen) {
 						i.requestFullscreen();
 					} else if (i.webkitRequestFullscreen) {
@@ -118,7 +118,7 @@ for(i=0; i<sd; i++){
 					if(data=="fail"){
 						alert("Applet could not be saved!\n\nEither it is too long, or you are not logged in...")
 					}else{
-						window.location="/codegolf/";
+						location.href="/codegolf/";
 					}
 				});
 				

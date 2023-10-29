@@ -15,14 +15,14 @@
 			$h=fopen("avatars/$id.jpg","w");
 			fwrite($h,$imgData);
 			fclose($h);
-                        $h=fopen("../public/avatars/$id.jpg","w");
-                        fwrite($h,$imgData);
-                        fclose($h);
+      //$h=fopen("../public/avatars/$id.jpg","w");
+      //fwrite($h,$imgData);
+      //fclose($h);
 			if($email){
 				$sql="UPDATE codegolfUsers SET email=\"$email\" WHERE id=$id";
 				mysqli_query($link, $sql);
 			}
-			mysqli_query($link, $sql);
+			//mysqli_query($link, $sql);
 			echo 1;
 		}
 	}
