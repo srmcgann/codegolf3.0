@@ -370,9 +370,9 @@
       }else{
         ?>
         $(".navMenu").append('<a href="/codegolf/" class="navMenuButton<?php echo ($filter=="all"?"Selected":"")?>">all</a>');
-        $(".navMenu").append('<a href="/codegolf/140" class="navMenuButton<?php echo ($filter=="140"?"Selected":"")?>">140b</a>');
-        $(".navMenu").append('<a href="/codegolf/512" class="navMenuButton<?php echo ($filter=="512"?"Selected":"")?>">512b</a>');
-        $(".navMenu").append('<a href="/codegolf/1024" class="navMenuButton<?php echo ($filter=="1024"?"Selected":"")?>">1024b</a>');
+        $(".navMenu").append('<a href="/codegolf/?params=/140" class="navMenuButton<?php echo ($filter=="140"?"Selected":"")?>">140b</a>');
+        $(".navMenu").append('<a href="/codegolf/?params=/512" class="navMenuButton<?php echo ($filter=="512"?"Selected":"")?>">512b</a>');
+        $(".navMenu").append('<a href="/codegolf/?params=/1024" class="navMenuButton<?php echo ($filter=="1024"?"Selected":"")?>">1024b</a>');
         <?php
       }
       ?>
@@ -754,3 +754,4 @@
     <?php 
   }
 ?>
+
