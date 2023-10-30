@@ -15,12 +15,12 @@ function mobileCheck() {
 function postComment(id,name){
   var comment=$("#commentInput"+id).val();
   if(comment.length>0){
-    $.post('/codegolf/postComment.php',{ id: id, comment: comment }, function(data) {
-      if(data){
+    $.post('/codegolf/postComment.php',{ id, comment}, function(data) {
+      if(data=='fail'){
         alert("Oops. Comment could not be posted.");
       }else{
-        comment=comment.replace(":)","ðŸ▒~V~R~V~R~\▒~V~R~V~R| ");
-        comment=comment.replace(":D","ðŸ▒~V~R~V~R~\▒~V~R~V~R~R");
+        comment=comment.replace(":)","🙂");
+        comment=comment.replace(":D","😃");
         $("#commentsDivInner"+id).show();
         $("#commentsDivInner"+id).append('<a class="commentUserName" href="/?params='+name+'">'+name+'</a>:<span> '+comment.replace("<","&lt;")+'</span><br>');
         $("#commentInput"+id).val("");
@@ -53,7 +53,7 @@ function Login(){
 
 function LogOut(){
 
-	$.post( "/logout.php", function( data ) {
+	$.post( "logout.php", function( data ) {
 		location.reload();
 	});
 }
@@ -95,7 +95,7 @@ function SubmitRegistration(){
 	}
 	pass=$("#password").val();
 	var isEmail=isEmailAddress(user);
-	$.post( "/register.php", { user: user, email: email, pass: pass}, function( data ) {
+	$.post( "register.php", { user: user, email: email, pass: pass}, function( data ) {
 		if(data){
 			location.reload();
 		}else{
@@ -111,7 +111,7 @@ function SubmitNewPassword(){
 		return;
 	}
 	var pass=$("#password").val();
-	$.post( "/changePassword.php", { pass: pass}, function( data ) {
+	$.post( "changePassword.php", { pass: pass}, function( data ) {
 		if(data){
 			alert("Password change was successful!");
 			$("#password").val("");
@@ -130,7 +130,7 @@ function SubmitForceNewPassword(){
 		return;
 	}
 	var pass=$("#newPassword").val();
-	$.post( "/changePassword.php", { pass: pass}, function( data ) {
+	$.post( "changePassword.php", { pass: pass}, function( data ) {
 		if(data){
 			alert("Password change was successful!");
 			$("#newPassword").val("");
@@ -309,7 +309,7 @@ function validatePrefEmail(current){
 			$("#emailAvailability").css("color","#0f0");
 			$("#emailAvailability").html("Available!");
 		}else{
-			$.post( "/emailAvailable.php", { email: email }, function( data ) {
+			$.post( "emailAvailable.php", { email: email }, function( data ) {
 				if(data && isEmailAddress(email)){
 					$("#emailAvailability").show();
 					$("#emailAvailability").css("color","#0f0");
@@ -372,7 +372,7 @@ function forceValidatePasswords(){
 
 function resendVerificationEmail(){
 	
-	$.post( "/resendVerificationEmail.php", function( data ) {
+	$.post( "resendVerificationEmail.php", function( data ) {
 		if(data){
 			$("#emailVerificationSendStatus").css("color","#0f0");
 			$("#emailVerificationSendStatus").html("Email sent!");
@@ -385,7 +385,7 @@ function resendVerificationEmail(){
 
 function confirmEmail(k,email){
 	
-	$.post( "/confirm.php", {k:k, email:email}, function( data ) {
+	$.post( "confirm.php", {k:k, email:email}, function( data ) {
 		if(data){
 			$("#confirmResult").css("color","#0f0");
 			$("#confirmResult").html("Email confirmed!<br><br><button onclick='Login()'>Log In</button>");

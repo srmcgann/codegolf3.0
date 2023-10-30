@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 	require("functions.php");
 	$userID=$_COOKIE['id'];
 	$pass=mysqli_real_escape_string($link, $_COOKIE['session']);
